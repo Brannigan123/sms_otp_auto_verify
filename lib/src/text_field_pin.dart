@@ -1,10 +1,6 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
 
 class TextFieldPin extends StatelessWidget {
-
   final Function(String) onChange;
   final double defaultBoxSize;
   final double selectedBoxSize;
@@ -16,19 +12,29 @@ class TextFieldPin extends StatelessWidget {
   final bool autoFocus;
   final MainAxisAlignment alignment;
   final TextEditingController textController;
+  final TextInputType keyboardType;
+  final TextInputAction textInputAction;
+  final FocusNode? focusNode;
+  final void Function(String pin)? onSubmitted;
 
   TextFieldPin({
     required this.onChange,
     required this.defaultBoxSize,
-    defaultDecoration,
-    selectedBoxSize,
+    BoxDecoration? defaultDecoration,
+    double? selectedBoxSize,
     this.codeLength = 5,
     this.textStyle,
     this.margin = 16.0,
     this.selectedDecoration,
     this.autoFocus = false,
-    this.alignment = MainAxisAlignment.center, textController,
-  })  : this.textController =textController?? new TextEditingController(),this.selectedBoxSize = selectedBoxSize ?? defaultBoxSize,
+    this.alignment = MainAxisAlignment.center,
+    TextEditingController? textController,
+    this.keyboardType = TextInputType.number,
+    this.textInputAction = TextInputAction.go,
+    this.focusNode,
+    this.onSubmitted,
+  })  : this.textController = textController ?? new TextEditingController(),
+        this.selectedBoxSize = selectedBoxSize ?? defaultBoxSize,
         this.defaultDecoration = defaultDecoration ??
             BoxDecoration(
               border: Border.all(color: Colors.black),
@@ -113,12 +119,12 @@ class TextFieldPin extends StatelessWidget {
               borderSide: BorderSide.none,
             ),
             filled: true),
-        inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.digitsOnly
-        ],
-        keyboardType: TextInputType.phone,
         controller: textController,
+        keyboardType: keyboardType,
+        textInputAction: textInputAction,
+        focusNode: focusNode,
         onChanged: onChange,
+        onSubmitted: onSubmitted,
       ),
     );
   }
